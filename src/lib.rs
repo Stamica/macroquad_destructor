@@ -231,6 +231,8 @@ struct Context {
     update_on: conf::UpdateTrigger,
 
     dropped_files: Vec<DroppedFile>,
+
+    ui_flushed: bool,
 }
 
 #[derive(Clone)]
@@ -375,6 +377,8 @@ impl Context {
             update_on,
 
             dropped_files: Vec::new(),
+
+            ui_flushed: false,
         }
     }
 
@@ -414,7 +418,10 @@ impl Context {
 
         self.perform_render_passes();
 
-        self.ui_context.draw(get_quad_context(), &mut self.gl);
+        if !self.ui_flushed {
+            self.ui_context.draw(get_quad_context(), &mut self.gl);
+        }
+        self.ui_flushed = false;
         let screen_mat = self.pixel_perfect_projection_matrix();
         self.gl.draw(get_quad_context(), screen_mat);
 

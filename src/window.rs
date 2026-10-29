@@ -15,6 +15,7 @@ pub fn draw_ui(){
     ctx.ui_context.draw(get_quad_context(), &mut ctx.gl);
     let m = ctx.pixel_perfect_projection_matrix();
     ctx.gl.draw(get_quad_context(), m);
+    ctx.ui_flushed = true;
 }
 
 /// Block execution until the next frame.
