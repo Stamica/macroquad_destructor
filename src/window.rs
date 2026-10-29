@@ -9,6 +9,14 @@ pub use miniquad;
 
 pub use miniquad::conf::Conf;
 
+pub fn draw_ui(){
+    let ctx = get_context();
+    ctx.perform_render_passes();
+    ctx.ui_context.draw(get_quad_context(), &mut ctx.gl);
+    let m = ctx.pixel_perfect_projection_matrix();
+    ctx.gl.draw(get_quad_context(), m);
+}
+
 /// Block execution until the next frame.
 #[must_use = "use `next_frame().await` to advance to the next frame"]
 pub fn next_frame() -> crate::exec::FrameFuture {
